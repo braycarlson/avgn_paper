@@ -1,7 +1,7 @@
 from setuptools import find_packages, setup
 
 setup(
-    name='avgn',
+    name='avgn_paper',
     packages=find_packages(),
     version='0.2.0',
     description='Latent models for visualizing, characterizing, and generating animal vocalizations',
