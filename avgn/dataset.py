@@ -15,7 +15,7 @@ class DataSet(object):
     """
 
     def __init__(
-        self, DATASET_ID, hparams=None, default_rate=None, build_mel_matrix=True
+        self, dataset_loc, hparams=None, default_rate=None, build_mel_matrix=True
     ):
         self.default_rate = None
 
@@ -24,15 +24,8 @@ class DataSet(object):
         else:
             self.hparams = hparams
 
-        self.DATASET_ID = DATASET_ID
-        if type(self.DATASET_ID) == list:
-            self.dataset_loc = [
-                most_recent_subdirectory(DATA_DIR / "processed" / i) for i in DATASET_ID
-            ]
-        else:
-            self.dataset_loc = most_recent_subdirectory(
-                DATA_DIR / "processed" / DATASET_ID
-            )
+        self.dataset_loc = dataset_loc
+
         self._get_wav_json_files()
 
         self.sample_json = read_json(self.json_files[0])
@@ -49,16 +42,16 @@ class DataSet(object):
         """
         if type(self.dataset_loc) == list:
             self.wav_files = np.concatenate(
-                [list((i / "WAV").glob("*.WAV")) for i in self.dataset_loc]
+                [list((i / "wav").glob("*.wav")) for i in self.dataset_loc]
             )[: self.hparams.nex]
             self.json_files = np.concatenate(
-                [list((i / "JSON").glob("*.JSON")) for i in self.dataset_loc]
+                [list((i / "json").glob("*.json")) for i in self.dataset_loc]
             )[: self.hparams.nex]
         else:
-            self.wav_files = list((self.dataset_loc / "WAV").glob("*.WAV"))[
+            self.wav_files = list((self.dataset_loc / "wav").glob("*.wav"))[
                 : self.hparams.nex
             ]
-            self.json_files = list((self.dataset_loc / "JSON").glob("*.JSON"))[
+            self.json_files = list((self.dataset_loc / "wav").glob("*.json"))[
                 : self.hparams.nex
             ]
 
@@ -97,4 +90,3 @@ class DataFile(object):
     def __init__(self, json_loc):
         self.data = read_json(json_loc)
         self.indvs = list(self.data["indvs"].keys())
-

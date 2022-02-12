@@ -1,5 +1,4 @@
-from pathlib2 import Path
-import pathlib2
+from pathlib import Path, PosixPath
 import os
 from datetime import datetime
 import numpy as np
@@ -23,7 +22,7 @@ def ensure_dir(file_path):
             except FileExistsError as e:
                 # multiprocessing can cause directory creation problems
                 print(e)
-    elif type(file_path) == pathlib2.PosixPath:
+    elif type(file_path) == PosixPath:
         # if this is a file
         if len(file_path.suffix) > 0:
             file_path.parent.mkdir(parents=True, exist_ok=True)
@@ -36,7 +35,7 @@ def most_recent_subdirectory(dataset_loc):
     recently with the "%Y-%m-%d_%H-%M-%S" time scheme used in AVGN
     """
     subdir_list = list((dataset_loc).iterdir())
-    directory_dates = [
-        datetime.strptime(i.name, "%Y-%m-%d_%H-%M-%S") for i in subdir_list
-    ]
-    return subdir_list[np.argsort(directory_dates)[-1]]
+    # directory_dates = [
+    #     datetime.strptime(i.name, "%Y-%m-%d_%H-%M-%S") for i in subdir_list
+    # ]
+    return subdir_list[np.argsort(subdir_list)[-1]]
