@@ -43,17 +43,13 @@ class DataSet(object):
         if type(self.dataset_loc) == list:
             self.wav_files = np.concatenate(
                 [list((i / "wav").glob("*.wav")) for i in self.dataset_loc]
-            )[: self.hparams.nex]
+            )
             self.json_files = np.concatenate(
                 [list((i / "json").glob("*.json")) for i in self.dataset_loc]
-            )[: self.hparams.nex]
+            )
         else:
-            self.wav_files = list((self.dataset_loc / "wav").glob("*.wav"))[
-                : self.hparams.nex
-            ]
-            self.json_files = list((self.dataset_loc / "wav").glob("*.json"))[
-                : self.hparams.nex
-            ]
+            self.wav_files = list((self.dataset_loc / "wav").glob("*.wav"))
+            self.json_files = list((self.dataset_loc / "wav").glob("*.json"))
 
     def build_mel_matrix(self, rate=None):
         if rate is None:

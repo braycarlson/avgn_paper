@@ -52,7 +52,7 @@ def subset_syllables(
         # reduce noise
         if hparams.reduce_noise:
             data = nr.reduce_noise(
-                audio_clip=data, noise_clip=data, **hparams.noise_reduce_kwargs
+                y=data, sr=rate, **hparams.noise_reduce_kwargs
             )
     syllables = [
         data[int(st * rate) : int(et * rate)] for st, et in zip(start_times, end_times)
@@ -314,7 +314,7 @@ def prepare_wav(wav_loc, hparams=None):
         # reduce noise
         if hparams.reduce_noise:
             data = nr.reduce_noise(
-                audio_clip=data, noise_clip=data, **hparams.noise_reduce_kwargs
+                y=data, sr=rate, **hparams.noise_reduce_kwargs
             )
 
     return rate, data
